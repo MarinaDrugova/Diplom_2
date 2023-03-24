@@ -15,12 +15,14 @@ public class UserChangeCheckTest {
     private UserClient userClient;
     private String accessToken;
     private UserChange userChange;
+    private User changeUser;
 
     @Before
     public void setUp() {
         user = UserGeneration.random();
         userClient = new UserClient();
         userChange = UserChangeGeneration.random();
+        changeUser = UserGeneration.random();
     }
 
     @Test
@@ -28,8 +30,9 @@ public class UserChangeCheckTest {
     public void createDataAuthorizedUser() {
         ValidatableResponse response = userClient.createUser(user);
         accessToken = response.extract().path("accessToken");
+        ValidatableResponse changeResponse = userClient.changeUser(userChange, accessToken);
         int statusCode = response.extract().statusCode();
-        boolean messageResponse = response.extract().path("success");
+        boolean messageResponse = changeResponse.extract().path("success");
         assertEquals(SC_OK, statusCode);
         assertTrue(messageResponse);
     }
