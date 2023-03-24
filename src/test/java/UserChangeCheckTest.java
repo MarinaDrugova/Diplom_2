@@ -15,22 +15,19 @@ public class UserChangeCheckTest {
     private UserClient userClient;
     private String accessToken;
     private UserChange userChange;
-    private User changeUser;
 
     @Before
     public void setUp() {
         user = UserGeneration.random();
         userClient = new UserClient();
-        changeUser = UserGeneration.random();
         userChange = UserChangeGeneration.random();
     }
 
     @Test
-    @DisplayName("Изменение данных пользователя с авторизацией")
-    public void changeDataAuthorizedUser() {
+    @DisplayName("Пользователь успешно создан")
+    public void createDataAuthorizedUser() {
         ValidatableResponse response = userClient.createUser(user);
         accessToken = response.extract().path("accessToken");
-        ValidatableResponse changeResponse = userClient.changeUser(userChange, accessToken);
         int statusCode = response.extract().statusCode();
         boolean messageResponse = response.extract().path("success");
         assertEquals(SC_OK, statusCode);

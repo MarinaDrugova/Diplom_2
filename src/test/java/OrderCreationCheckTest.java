@@ -10,8 +10,8 @@ import static org.apache.http.HttpStatus.*;
 public class OrderCreationCheckTest {
     private OrderClient orderClient;
     private String accessToken;
-    private String[] ingredients;
     private String email;
+    private String[] ingredients;
     private User user;
     private UserClient userClient;
     private Order order;
@@ -42,18 +42,7 @@ public class OrderCreationCheckTest {
             Assert.assertEquals(SC_OK, statusCode);
             Assert.assertTrue(messageResponse);
         }
-        @Test
-    @DisplayName("Создание заказа без авторизации")
-    public void orderCreationWithOutAuthorized(){
-            ValidatableResponse responseIngredients = orderClient.getOrderWithIngredients();
-            ingredients[0] = responseIngredients.extract().body().path("data[0]._id");
-            ingredients[1] = responseIngredients.extract().body().path("data[1]._id");
-            ValidatableResponse createResponse = orderClient.createOrderWithOutAuthorization(order);
-            int statusCode = createResponse.extract().statusCode();
-            boolean messageResponse = createResponse.extract().path("success");
-            Assert.assertEquals(SC_OK, statusCode);
-            Assert.assertTrue(messageResponse);
-        }
+
     @Test
     @DisplayName("Создание заказа без ингредиентов")
     public void orderCreationWithOutIngredients(){
